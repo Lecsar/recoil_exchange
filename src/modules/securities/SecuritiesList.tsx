@@ -1,21 +1,15 @@
-import {useEffect} from 'react';
-import {useRecoilValue, useRecoilState} from 'recoil';
-import {getSecuritiesQuery, getSecuritiesListState, pageState} from './selectors';
+import {useLoadSecuritiesList} from './hooks';
 
 export const SecuritiesList = () => {
-  const page = useRecoilValue(pageState);
+  const {isInitialLoading, securityList} = useLoadSecuritiesList();
 
-  const securitiesResponse = useRecoilValue(getSecuritiesQuery);
-  const [securityList, setSecurities] = useRecoilState(getSecuritiesListState);
-
-  useEffect(() => {
-    setSecurities(securitiesResponse);
-  }, [securitiesResponse, setSecurities]);
+  if (isInitialLoading) {
+    return <p>Initial loading...</p>;
+  }
 
   return securityList.length ? (
     <ul>
-      <h1>{page}</h1>
-      {securityList.map(({id, name}, index) => (
+      {securityList.map(({id, name}) => (
         <li key={id}>{name}</li>
       ))}
     </ul>

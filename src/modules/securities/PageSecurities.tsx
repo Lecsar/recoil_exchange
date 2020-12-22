@@ -1,33 +1,24 @@
-import {Suspense} from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {Input} from 'components/Input';
+import {Select} from 'components/Select';
+import {useRecoilState} from 'recoil';
+import {useDebouncedCallback} from 'use-debounce/lib';
 import {SecuritiesList} from './SecuritiesList';
-import {getSearchState, getPerPageState, pageState} from './selectors';
+import {SecuritiesPaginator} from './SecuritiesPaginator';
+import {getSearchState, getPerPageState} from './selectors';
 
 export const PageSecurities = () => {
   const [search, setSearch] = useRecoilState(getSearchState);
-  const [limit, setLimit] = useRecoilState(getPerPageState);
-  const setPage = useSetRecoilState(pageState);
+  const [perPage, setPerPage] = useRecoilState(getPerPageState);
+
+  const {callback: debouncedSetSearch} = useDebouncedCallback(setSearch, 150);
 
   return (
     <div>
-      <input style={{marginRight: 5}} value={search} onChange={({target}) => setSearch(target.value)} />
-      <select value={limit} onChange={({target: {value}}) => setLimit(Number(value))}>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="100">100</option>
-      </select>
+      <Input style={{marginRight: 5}} initialValue={search} onChange={debouncedSetSearch} />
+      <Select selectedOption={perPage} options={[5, 10, 20, 100]} onChange={setPerPage} />
 
-      <br />
-      <br />
-
-      <button onClick={() => setPage((prevPage) => ++prevPage)}>Load more...</button>
-
-      <br />
-      <br />
-      <Suspense fallback="Loading...">
-        <SecuritiesList />
-      </Suspense>
+      <SecuritiesPaginator />
+      <SecuritiesList />
     </div>
   );
 };

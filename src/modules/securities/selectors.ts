@@ -47,7 +47,7 @@ export const getSecuritiesListState = selector<ISecurity[]>({
   },
 });
 
-export const getSecuritiesQuery = selector<ISecurity[]>({
+export const getSecuritiesQuery = selector({
   key: 'getSecuritiesQuery',
   get: async ({get}) => {
     const securitiesList = await getSecurities({
@@ -57,5 +57,16 @@ export const getSecuritiesQuery = selector<ISecurity[]>({
     });
 
     return securitiesList;
+  },
+});
+
+export const hasLoadMoreButtonState = selector({
+  key: 'hasLoadMoreButton',
+  get: ({get}) => {
+    const perPage = get(getPerPageState);
+    const page = get(pageState);
+    const amountSecurities = get(getSecuritiesListState).length;
+
+    return amountSecurities >= perPage * page;
   },
 });
