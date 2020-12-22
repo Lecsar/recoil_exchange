@@ -6,7 +6,7 @@ import {SecuritiesList} from './SecuritiesList';
 import {SecuritiesPaginator} from './SecuritiesPaginator';
 import {getSearchState, getPerPageState} from './selectors';
 
-export const PageSecurities = () => {
+export const SecuritiesPage = () => {
   const [search, setSearch] = useRecoilState(getSearchState);
   const [perPage, setPerPage] = useRecoilState(getPerPageState);
 

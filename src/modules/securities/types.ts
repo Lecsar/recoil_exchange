@@ -1,3 +1,5 @@
+import {ISecurityType} from 'modules/dictionary';
+
 export interface ISecurity {
   id: number;
   secid: string;
@@ -11,7 +13,7 @@ export interface ISecurity {
   emitentInn: string;
   emitentOkpo: string;
   gosReg: string;
-  type: string;
+  type: ISecurityType['name'];
   group: string;
   primaryBoardid: string;
   marketPriceBoardid: string;

@@ -1,1 +1,1 @@
-export {PageSecurities} from './PageSecurities';
+export {SecuritiesPage} from './SecuritiesPage';
