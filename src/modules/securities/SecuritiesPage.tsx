@@ -14,8 +14,13 @@ export const SecuritiesPage = () => {
 
   return (
     <div>
+      <h2>Параметры запроса</h2>
       <Input style={{marginRight: 5}} initialValue={search} onChange={debouncedSetSearch} />
       <Select selectedOption={perPage} options={[5, 10, 20, 100]} onChange={setPerPage} />
+      <hr />
+
+      <h2>Фильтры</h2>
+      <hr />
 
       <SecuritiesPaginator />
       <SecuritiesList />

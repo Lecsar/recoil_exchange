@@ -1,5 +1,5 @@
 import {selector} from 'recoil';
-import {getSecurityTypes, getEngines} from './api';
+import {getSecurityTypes, getEngines, getGlobalDictionaries} from './api';
 
 const getSecurityTypesQuery = selector({
   key: 'dictionary/getSecurityTypesQuery',
@@ -15,7 +15,30 @@ const getEnginesQuery = selector({
   },
 });
 
+const getGlobalDictionariesQuery = selector({
+  key: 'dictionary/getGlobalDictionariesQuery',
+  get: async () => {
+    return await getGlobalDictionaries();
+  },
+});
+
+const getMarkets = selector({
+  key: 'dictionary/getMarkets',
+  get: ({get}) => {
+    return get(getGlobalDictionariesQuery).markets;
+  },
+});
+
+const getBoards = selector({
+  key: 'dictionary/getBoards',
+  get: ({get}) => {
+    return get(getGlobalDictionariesQuery).boards;
+  },
+});
+
 export const dicrionarySelectors = {
   securityType: getSecurityTypesQuery,
   engines: getEnginesQuery,
+  markets: getMarkets,
+  boards: getBoards,
 };

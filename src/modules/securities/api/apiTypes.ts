@@ -14,7 +14,7 @@ export interface ISecurityApiModel {
   type: string;
   group: string;
   primary_boardid: string;
-  marketprice_boardid: string;
+  marketprice_boardid: string | null;
 }
 
 export interface IGetSecuritiesParams {

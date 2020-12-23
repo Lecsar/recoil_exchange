@@ -1,4 +1,4 @@
-import {ISecurityType} from 'modules/dictionary';
+import {IBoard, ISecurityType} from 'modules/dictionary';
 
 export interface ISecurity {
   id: number;
@@ -15,6 +15,6 @@ export interface ISecurity {
   gosReg: string;
   type: ISecurityType['name'];
   group: string;
-  primaryBoardid: string;
-  marketPriceBoardid: string;
+  primaryBoardId: IBoard['boardId'];
+  marketPriceBoardId: IBoard['boardId'] | undefined;
 }

@@ -1,3 +1,4 @@
+import {normalizeData} from 'helpers/normalizeData';
 import {RecoilValue, useRecoilValueLoadable} from 'recoil';
 import {dicrionarySelectors} from './selectors';
 
@@ -12,6 +13,7 @@ export const useGetDictionaryEntitity = <
   propertyIdName: PropertyIdName,
   id?: TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>[PropertyIdName]
 ): TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]> | undefined => {
+  // @ts-expect-error
   const loadableState = useRecoilValueLoadable(dicrionarySelectors[dictionaryName]);
 
   if (loadableState.state === 'hasValue') {
@@ -24,27 +26,17 @@ export const useGetDictionaryEntitity = <
 
 export const useGetDictionaryEntitities = <
   DictionaryName extends keyof TDictionarySelectors,
-  PropertyIdName extends keyof TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>,
-  IdValue extends TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>[PropertyIdName]
+  PropertyIdName extends keyof TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>
 >(
   dictionaryName: DictionaryName,
-  propertyIdName: PropertyIdName,
-  ids: IdValue[] = []
+  propertyIdName: PropertyIdName
 ): Record<string, TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>> => {
+  // @ts-expect-error
   const loadableState = useRecoilValueLoadable(dicrionarySelectors[dictionaryName]);
 
   if (loadableState.state === 'hasValue') {
-    return ids.reduce((acc, id) => {
-      // @ts-expect-error
-      const entity = loadableState.contents.find((entity) => id === entity[propertyIdName]);
-
-      if (entity) {
-        // @ts-expect-error
-        acc[String(id)] = entity;
-      }
-
-      return acc;
-    }, {} as Record<string, TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>>);
+    // @ts-expect-error
+    return normalizeData(loadableState.contents, propertyIdName);
   }
 
   return {} as Record<string, TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>>;

@@ -4,7 +4,7 @@ import {ISecurity} from '../types';
 import {securitySchema} from './schemas';
 
 /** Список бумаг торгуемых на московской бирже */
-export const getSecurities = (p: IGetSecuritiesParams = {}) => {
+export const getSecurities = (p: IGetSecuritiesParams = {}): Promise<ISecurity[]> => {
   const page = p.page;
   const perPage = p.perPage;
 
