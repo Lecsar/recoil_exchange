@@ -36,3 +36,11 @@ export interface IBoard {
   hasCandles: boolean;
   isPrimary: boolean;
 }
+
+/** Тип безопасности */
+export interface ISecurityGroup {
+  id: number;
+  name: string;
+  title: string;
+  isHidden: boolean;
+}

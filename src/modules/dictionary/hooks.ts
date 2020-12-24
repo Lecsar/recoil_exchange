@@ -1,8 +1,8 @@
 import {normalizeData} from 'helpers/normalizeData';
 import {RecoilValue, useRecoilValueLoadable} from 'recoil';
-import {dicrionarySelectors} from './selectors';
+import {dictionarySelectors} from './selectors';
 
-type TDictionarySelectors = typeof dicrionarySelectors;
+type TDictionarySelectors = typeof dictionarySelectors;
 type TGetRecoilValueFromArray<T> = T extends RecoilValue<Array<infer K>> ? K : never;
 
 export const useGetDictionaryEntitity = <
@@ -14,7 +14,7 @@ export const useGetDictionaryEntitity = <
   id?: TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>[PropertyIdName]
 ): TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]> | undefined => {
   // @ts-expect-error
-  const loadableState = useRecoilValueLoadable(dicrionarySelectors[dictionaryName]);
+  const loadableState = useRecoilValueLoadable(dictionarySelectors[dictionaryName]);
 
   if (loadableState.state === 'hasValue') {
     // @ts-expect-error
@@ -32,7 +32,7 @@ export const useGetDictionaryEntitities = <
   propertyIdName: PropertyIdName
 ): Record<string, TGetRecoilValueFromArray<TDictionarySelectors[DictionaryName]>> => {
   // @ts-expect-error
-  const loadableState = useRecoilValueLoadable(dicrionarySelectors[dictionaryName]);
+  const loadableState = useRecoilValueLoadable(dictionarySelectors[dictionaryName]);
 
   if (loadableState.state === 'hasValue') {
     // @ts-expect-error

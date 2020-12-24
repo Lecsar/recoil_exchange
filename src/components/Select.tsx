@@ -4,6 +4,7 @@ interface IProps<Option> {
   style?: CSSProperties;
   selectedOption?: Option;
   options: Option[];
+  label?: string;
   onChange: (option: Option) => void;
   getOptionId?: (option: Option) => string | number;
   getOptionName?: (option: Option) => string;
@@ -13,6 +14,7 @@ export const Select = <Option extends unknown>({
   style,
   selectedOption,
   options,
+  label,
   onChange,
   getOptionId = (option) => option as string | number,
   getOptionName = (option) => option as string,
@@ -30,17 +32,21 @@ export const Select = <Option extends unknown>({
   );
 
   return (
-    <select style={style} value={String(selectedOptionIndex)} onChange={handleChange}>
-      {options.map((option, index) => {
-        const id = getOptionId(option);
-        const name = getOptionName(option);
+    <div style={{display: 'flex', marginTop: 5}}>
+      {label && <p style={{margin: 0, padding: 0, marginRight: 5}}>{label}</p>}
 
-        return (
-          <option key={id} value={String(index)}>
-            {name}
-          </option>
-        );
-      })}
-    </select>
+      <select style={style} value={String(selectedOptionIndex)} onChange={handleChange}>
+        {options.map((option, index) => {
+          const id = getOptionId(option);
+          const name = getOptionName(option);
+
+          return (
+            <option key={id} value={String(index)}>
+              {name}
+            </option>
+          );
+        })}
+      </select>
+    </div>
   );
 };

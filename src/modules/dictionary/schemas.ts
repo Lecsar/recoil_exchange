@@ -22,3 +22,7 @@ export const boardSchema = {
   has_candles: {name: 'hasCandles' as const, converter: convertFromApiBoolean},
   is_primary: {name: 'isPrimary' as const, converter: convertFromApiBoolean},
 };
+
+export const securityGroupSchema = {
+  is_hidden: {name: 'isHidden' as const, converter: convertFromApiBoolean},
+};

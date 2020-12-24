@@ -36,9 +36,17 @@ const getBoards = selector({
   },
 });
 
-export const dicrionarySelectors = {
+const getSecurityGroups = selector({
+  key: 'dictionary/getSecurityGroups',
+  get: ({get}) => {
+    return get(getGlobalDictionariesQuery).securityGroups;
+  },
+});
+
+export const dictionarySelectors = {
   securityType: getSecurityTypesQuery,
   engines: getEnginesQuery,
   markets: getMarkets,
   boards: getBoards,
+  securityGroups: getSecurityGroups,
 };

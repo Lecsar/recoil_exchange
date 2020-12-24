@@ -34,3 +34,10 @@ export interface IBoardApiModel {
   has_candles: TApiBoolean;
   is_primary: TApiBoolean;
 }
+
+export interface ISecurityGroupApiModel {
+  id: number;
+  name: string;
+  title: string;
+  is_hidden: TApiBoolean;
+}

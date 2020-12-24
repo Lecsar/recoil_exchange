@@ -1,9 +1,15 @@
 import {api, joinColumnsWithDataInResponse} from 'api';
 import {changeDataKeys} from 'helpers/changeDataKeys';
 
-import {ISecurityType, IEngine, IMarket, IBoard} from './types';
-import {IBoardApiModel, IEngineApiModel, IMarketApiModel, ISecurityTypeApiModel} from './apiTypes';
-import {boardSchema, marketSchema} from './schemas';
+import {ISecurityType, IEngine, IMarket, IBoard, ISecurityGroup} from './types';
+import {
+  IBoardApiModel,
+  IEngineApiModel,
+  IMarketApiModel,
+  ISecurityGroupApiModel,
+  ISecurityTypeApiModel,
+} from './apiTypes';
+import {boardSchema, marketSchema, securityGroupSchema} from './schemas';
 
 /** Типы ценных бумаг */
 export const getSecurityTypes = (params?: {lang?: 'ru' | 'eng'}) =>
@@ -26,15 +32,23 @@ export const getEngines = (params?: {lang?: 'ru' | 'eng'}) =>
 /** Получить глобальные справочники */
 export const getGlobalDictionaries = (params?: {lang?: 'ru' | 'eng'}) =>
   api
-    .get<{markets: IMarketApiModel[]; boards: IBoardApiModel[]}>('/index.json', {
-      params,
-      transformResponse: joinColumnsWithDataInResponse(),
-    })
-    .then(({data: {markets, boards}}): {markets: IMarket[]; boards: IBoard[]} => {
+    .get<{markets: IMarketApiModel[]; boards: IBoardApiModel[]; securitygroups: ISecurityGroupApiModel[]}>(
+      '/index.json',
+      {
+        params,
+        transformResponse: joinColumnsWithDataInResponse(),
+      }
+    )
+    .then(({data: {markets, boards, securitygroups}}): {
+      markets: IMarket[];
+      boards: IBoard[];
+      securityGroups: ISecurityGroup[];
+    } => {
       return {
-        markets: markets.map((market) =>
-          changeDataKeys<IMarketApiModel, IMarket, typeof marketSchema>(market, marketSchema)
+        markets: markets.map((i) => changeDataKeys<IMarketApiModel, IMarket, typeof marketSchema>(i, marketSchema)),
+        boards: boards.map((i) => changeDataKeys<IBoardApiModel, IBoard, typeof boardSchema>(i, boardSchema)),
+        securityGroups: securitygroups.map((i) =>
+          changeDataKeys<ISecurityGroupApiModel, ISecurityGroup, typeof securityGroupSchema>(i, securityGroupSchema)
         ),
-        boards: boards.map((board) => changeDataKeys<IBoardApiModel, IBoard, typeof boardSchema>(board, boardSchema)),
       };
     });
