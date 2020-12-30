@@ -3,29 +3,6 @@ import {getKeys} from './getKeys';
 
 type Model = Record<string, any>;
 
-// type UniqueTypeForSameValuesInModels = {__unique__: '__unique__'};
-
-// type GetSchemaWithCommonKeys<ApiModel extends Model, MyModel extends Model> = {
-//   [key in keyof ApiModel & keyof MyModel]: ApiModel[key] extends MyModel[key]
-//     ? UniqueTypeForSameValuesInModels
-//     : ApiModel[key] extends never
-//     ? never
-//     : (apiValue: ApiModel[key]) => MyModel[key];
-// };
-
-// type GetSchemaWithDifferentKeys<ApiModel extends Model, MyModel extends Model> = Record<
-//   Exclude<keyof ApiModel, keyof GetSchemaWithCommonKeys<ApiModel, MyModel>>,
-//   SchemaValue
-// >;
-
-// type GetSchema<ApiModel extends Model, MyModel extends Model> = GetSchemaWithDifferentKeys<ApiModel, MyModel> &
-//   GetSchemaWithCommonKeys<ApiModel, MyModel>;
-
-// type GetKeysMapSchema<ApiModel extends Model, MyModel extends Model> = ExcludeKeysFromRecord<
-//   GetSchema<ApiModel, MyModel>,
-//   UniqueTypeForSameValuesInModels
-// >;
-
 type SchemaValue<ModelValue = any> =
   /** просто мапилка  first_Name => firstName  */
   | string
@@ -59,34 +36,28 @@ type GetRemappedModel<ApiModel extends Model, Schema extends Record<string, any>
   }
 >;
 
+type GetApiModelData<ApiModel extends Model, Schema extends Record<string, any>> = Pick<
+  ApiModel,
+  Exclude<keyof ApiModel, keyof Schema>
+>;
+
 // type Test_1 = {
-//   a_a: string;
-//   b_b: number;
-//   f?: boolean;
+//   a: string;
 // };
 
-// type Test_2 = {
-//   aA: string;
-//   b: string;
-//   f?: boolean;
+// type Schema = {
+//   a: (value: string) => number;
 // };
 
-// type TestSchema = {
-//   a_a: 'aA';
-//   b_b: {name: 'bB'; converter?: (apiValue: any) => '426738293'};
-// };
+// type GetResult<ApiModel, Schema> = GetApiModelData<ApiModel, Schema> & GetRemappedModel<ApiModel, Schema>;
 
-// type Result = GetSomeThing<Test_1, TestSchema>;
+// type Result_1 = GetResult<Test_1, Schema>;
+// type Result = ISecurity extends GetResult<ISecurityApiModel, typeof securitySchema> ? true : false;
 
-export const changeDataKeys = <
-  ApiModel extends Model,
-  MyModel extends Model,
-  // Schema extends GetKeysMapSchema<ApiModel, MyModel>
-  Schema extends Record<string, any>
->(
+export const changeDataKeys = <ApiModel extends Model, MyModel extends Model, Schema extends Record<string, any>>(
   data: ApiModel,
   newKeysMap: Schema
-): MyModel extends GetRemappedModel<ApiModel, Schema> ? MyModel : undefined => {
+): MyModel extends GetApiModelData<ApiModel, Schema> & GetRemappedModel<ApiModel, Schema> ? MyModel : undefined => {
   const dataCopy = JSON.parse(JSON.stringify(data));
 
   getKeys(newKeysMap).forEach((oldKey) => {

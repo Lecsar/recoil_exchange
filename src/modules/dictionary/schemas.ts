@@ -1,6 +1,4 @@
-import {TApiBoolean} from './apiTypes';
-
-const convertFromApiBoolean = (value: TApiBoolean) => Boolean(value);
+import {converterBoolean} from 'api';
 
 export const marketSchema = {
   trade_engine_id: 'tradeEngineId' as const,
@@ -18,11 +16,11 @@ export const boardSchema = {
   engine_id: 'engineId' as const,
   market_id: 'marketId' as const,
   board_title: 'boardTitle' as const,
-  is_traded: {name: 'isTraded' as const, converter: convertFromApiBoolean},
-  has_candles: {name: 'hasCandles' as const, converter: convertFromApiBoolean},
-  is_primary: {name: 'isPrimary' as const, converter: convertFromApiBoolean},
+  is_traded: {name: 'isTraded' as const, converter: converterBoolean},
+  has_candles: {name: 'hasCandles' as const, converter: converterBoolean},
+  is_primary: {name: 'isPrimary' as const, converter: converterBoolean},
 };
 
 export const securityGroupSchema = {
-  is_hidden: {name: 'isHidden' as const, converter: convertFromApiBoolean},
+  is_hidden: {name: 'isHidden' as const, converter: converterBoolean},
 };

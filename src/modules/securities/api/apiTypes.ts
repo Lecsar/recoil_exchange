@@ -1,19 +1,21 @@
+import { TApiBoolean } from "api";
+
 export interface ISecurityApiModel {
   id: number;
   secid: string;
   shortname: string;
   regnumber: string;
-  name: string;
-  isin: string;
-  is_traded: 1 | 0;
+  name?: string;
+  isin?: string;
+  is_traded: TApiBoolean;
   emitent_id: number;
   emitent_title: string;
   emitent_inn: string;
   emitent_okpo: string;
   gosreg: string;
   type: string;
-  group: string;
-  primary_boardid: string;
+  group: string | null;
+  primary_boardid: string | null;
   marketprice_boardid: string | null;
 }
 

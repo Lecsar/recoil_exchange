@@ -14,7 +14,7 @@ export interface ISecurity {
   emitentOkpo: string;
   gosReg: string;
   type: ISecurityType['name'];
-  group: ISecurityGroup['name'];
-  primaryBoardId: IBoard['boardId'];
+  group: ISecurityGroup['name'] | undefined;
+  primaryBoardId: IBoard['boardId'] | undefined;
   marketPriceBoardId: IBoard['boardId'] | undefined;
 }

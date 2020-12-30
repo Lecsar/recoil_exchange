@@ -1,6 +1,10 @@
 import {atom, selector} from 'recoil';
+
+import {securityDenormalizationSchema, TSecurityDenormalizationSchema} from './denormalizationSchema';
+import {boardFilterState, securityTypeFilterState, securityGroupFilterState} from './SecuritiesFilters';
 import {getSecurities} from './api';
 import {ISecurity} from './types';
+import {makeFilter} from 'helpers/makeDenormalizeFilter';
 
 export const pageState = atom({key: 'page', default: 1});
 
@@ -69,4 +73,23 @@ export const hasLoadMoreButtonState = selector({
 
     return amountSecurities >= perPage * page;
   },
+});
+
+const applySecurityListFilter = makeFilter<TSecurityDenormalizationSchema>(securityDenormalizationSchema);
+
+export const securityFilteredListState = selector({
+  key: 'securityFilteredListState',
+  get: ({get}) => {
+    const securitiesList = get(getSecuritiesListState);
+
+    return securitiesList
+      .filter(applySecurityListFilter('type', get(securityTypeFilterState)))
+      .filter(applySecurityListFilter('primaryBoardId', get(boardFilterState)))
+      .filter(applySecurityListFilter('group', get(securityGroupFilterState)));
+  },
+});
+
+export const amountSecurityFilteredElementsState = selector({
+  key: 'amountSecurityFilteredElementsState',
+  get: ({get}) => get(securityFilteredListState).length,
 });

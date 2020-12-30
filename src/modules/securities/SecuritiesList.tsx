@@ -18,8 +18,8 @@ export const SecuritiesList = () => {
           <li key={id}>
             <p>{name}</p>
             <h4>securityTypeTitle: {securityTypesDictionary[type].title}</h4>
-            <h4>boardTitle: {boardsDcitionary[primaryBoardId].boardTitle}</h4>
-            <h4>securityGroupName: {securityGroupsDictionary[group].title}</h4>
+            {primaryBoardId && <h4>boardTitle: {boardsDcitionary[primaryBoardId].boardTitle}</h4>}
+            {group && <h4>securityGroupName: {securityGroupsDictionary[group].title}</h4>}
             {marketPriceBoardId && <h4>marketPriceBoardTitle: {boardsDcitionary[marketPriceBoardId].boardTitle}</h4>}
             <hr />
           </li>

@@ -1,4 +1,4 @@
-export type TApiBoolean = 1 | 0;
+import {TApiBoolean} from 'api';
 
 export interface ISecurityTypeApiModel {
   id: number;

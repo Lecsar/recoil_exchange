@@ -5,6 +5,7 @@ import {useDebouncedCallback} from 'use-debounce/lib';
 import {SecuritiesFilters} from './SecuritiesFilters';
 import {SecuritiesList} from './SecuritiesList';
 import {SecuritiesPaginator} from './SecuritiesPaginator';
+import {SecurityPageGreedySearch} from './SecurityPageGreedySearch';
 import {getSearchState, getPerPageState} from './selectors';
 
 export const SecuritiesPage = () => {
@@ -16,7 +17,13 @@ export const SecuritiesPage = () => {
   return (
     <div>
       <h2>Параметры запроса</h2>
-      <Input style={{marginRight: 5}} initialValue={search} onChange={debouncedSetSearch} />
+      <Input
+        style={{marginRight: 5, width: 300}}
+        label="Поиск"
+        placeholder="Код, название, идентификатор"
+        initialValue={search}
+        onChange={debouncedSetSearch}
+      />
       <Select label="Per page" selectedOption={perPage} options={[5, 10, 20, 100]} onChange={setPerPage} />
       <hr />
 
@@ -24,7 +31,12 @@ export const SecuritiesPage = () => {
       <SecuritiesFilters />
       <hr />
 
+      <h2>Попробовать найти с заданными параметрами</h2>
+      <SecurityPageGreedySearch />
+      <hr />
+
       <SecuritiesPaginator />
+
       <SecuritiesList />
     </div>
   );
