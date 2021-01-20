@@ -15,7 +15,7 @@ export const SecuritiesPage = () => {
   const {callback: debouncedSetSearch} = useDebouncedCallback(setSearch, 150);
 
   return (
-    <div>
+    <div style={{position: 'absolute', top: '20%', left: '40%'}}>
       <h2>Параметры запроса</h2>
       <Input
         style={{marginRight: 5, width: 300}}

@@ -9,6 +9,7 @@ type ResponseData = Record<string, {data: Array<Array<any>>; columns: string[]}>
 export function joinColumnsWithDataInResponse<Data extends ResponseData>(): (
   response: string
 ) => Record<keyof Data, Entity[]>;
+
 export function joinColumnsWithDataInResponse<Data extends ResponseData>(
   key: keyof Data
 ): (response: string) => Entity[];
@@ -39,3 +40,11 @@ export const prepareArrayDataBySchema = <
   schema: Schema
 ) => ({data}: AxiosResponse<ApiModel[]>) =>
   data.map((apiModel) => changeDataKeys<ApiModel, MyModel, typeof schema>(apiModel, schema));
+
+export const getStartCursorPosition = (page: number | undefined, perPage: number | undefined) => {
+  if (page !== undefined && perPage !== undefined) {
+    return page * perPage - perPage;
+  }
+
+  return 0;
+};
