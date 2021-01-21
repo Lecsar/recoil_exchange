@@ -1,19 +1,25 @@
-import {useLoadSecuritiesList} from './hooks';
+import {useRecoilValue} from 'recoil';
+
 import {useGetDictionaryEntitities} from 'modules/dictionary/hooks';
+import {useLoadRecoilData} from 'hooks';
+
+import {getSecuritiesListState, getSecuritiesQuery, securityFilteredListState} from './selectors';
 
 export const SecuritiesList = () => {
-  const {isInitialLoading, securityList} = useLoadSecuritiesList();
+  const {isLoading} = useLoadRecoilData(getSecuritiesListState, getSecuritiesQuery);
+  const securityFilteredList = useRecoilValue(securityFilteredListState);
+
   const securityTypesDictionary = useGetDictionaryEntitities('securityType', 'name');
   const boardsDcitionary = useGetDictionaryEntitities('boards', 'boardId');
   const securityGroupsDictionary = useGetDictionaryEntitities('securityGroups', 'name');
 
-  if (isInitialLoading) {
+  if (isLoading && securityFilteredList.length === 0) {
     return <p>Initial loading...</p>;
   }
 
-  return securityList.length ? (
+  return securityFilteredList.length ? (
     <ul>
-      {securityList.map(({id, name, type, primaryBoardId, marketPriceBoardId, group}) => {
+      {securityFilteredList.map(({id, name, type, primaryBoardId, marketPriceBoardId, group}) => {
         return (
           <li key={id}>
             <p>{name}</p>

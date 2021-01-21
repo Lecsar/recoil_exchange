@@ -1,5 +1,12 @@
 export interface INewsApiModel {
   id: number;
+  title: string;
+  published_at: string;
+  body: string;
+}
+
+export interface IShortNewsApiModel {
+  id: number;
   tag: string;
   title: string;
   published_at: string;

@@ -1,29 +1,18 @@
-import {useEffect} from 'react';
-import {useRecoilState, useRecoilValueLoadable} from 'recoil';
-import {newsState, getNewsQuery} from './selectors';
+import {useLoadRecoilData} from 'hooks';
+
+import {NewsList} from './components/NewsList';
+import {newsListState, getNewsListQuery} from './selectors';
 
 export const NewsPage = () => {
-  const [news, setNews] = useRecoilState(newsState);
-  const valueLoadable = useRecoilValueLoadable(getNewsQuery);
+  const {data: newsList, isLoading} = useLoadRecoilData(newsListState, getNewsListQuery);
 
-  useEffect(() => {
-    if (valueLoadable.state === 'hasValue') {
-      setNews(valueLoadable.contents);
-    }
-  }, [setNews, valueLoadable.contents, valueLoadable.state]);
-
-  if (valueLoadable.state === 'loading') {
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <ul>
-      {news.map(({id, title}) => (
-        <li key={id}>
-          <h3>{id}</h3>
-          <p>{title}</p>
-        </li>
-      ))}
-    </ul>
+    <div style={{width: 300, margin: 'auto'}}>
+      <NewsList newsList={newsList} />
+    </div>
   );
 };

@@ -1,7 +1,11 @@
 export interface INews {
   id: number;
-  tag: string;
   title: string;
   publishedAt: string;
+  body: string;
+}
+
+export interface IShortNews extends Omit<INews, 'body'> {
+  tag: string;
   modifiedAt: string;
 }

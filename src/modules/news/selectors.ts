@@ -1,15 +1,22 @@
-import {atom, selector} from 'recoil';
-import {getNews} from './api';
-import {INews} from './types';
+import {atom, selector, selectorFamily} from 'recoil';
+import {getListNews, getNews} from './api';
+import {IShortNews} from './types';
+
+export const getNewsQuery = selectorFamily({
+  key: 'getNewsQuery',
+  get: (newsId: number) => async () => {
+    const news = await getNews(newsId);
+    return news;
+  },
+});
 
 const newsPage = atom({key: 'newsPage', default: 1});
+export const newsListState = atom<IShortNews[]>({key: 'newsListState', default: []});
 
-export const newsState = atom<INews[]>({key: 'newsState', default: []});
-
-export const getNewsQuery = selector({
-  key: 'getNewsQuery',
+export const getNewsListQuery = selector({
+  key: 'getNewsListQuery',
   get: async ({get}) => {
-    const news = await getNews({page: get(newsPage)});
-    return news;
+    const listNews = await getListNews({page: get(newsPage)});
+    return listNews;
   },
 });
